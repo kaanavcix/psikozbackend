@@ -1,8 +1,6 @@
-import * as dotenv from 'dotenv';
 import http from 'http';
 import helmet from 'helmet';
 import cors from 'cors';
-dotenv.config();
 import express, { Express, Request, Response, NextFunction } from 'express';
 import bodyParser from "body-parser"
 import rateLimit from "express-rate-limit";
