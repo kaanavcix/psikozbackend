@@ -1,16 +1,31 @@
-export default class Post{
+import { Table, Model, DataType, Column, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { UserModel } from './patient.model';
 
-  id?: string;
-  title?: string;
+
+@Table({
+    tableName: 'post',
+  timestamps:false,
+})
+export class Post extends Model {
+
+  @Column({autoIncrement:true,primaryKey:true,})
+  postid?: number;
+  @ForeignKey(()=>UserModel)
+  userid?: number;
+  @BelongsTo(()=>UserModel)
+  user?: UserModel;
+  @Column({allowNull:true,type: DataType.STRING,})
+  categoryname?: string;
+  @Column({allowNull:false ,type: DataType.STRING,})
   content?: string;
-  constructor(id?: string, title?: string, content?: string){
-    this.id = id;
-    this.title = title;
-    this.content = content;
-  }
+  @Column({allowNull:true,type: DataType.BOOLEAN,})
+  isanonim?:boolean;
+
+  
   
 
   
 }
 
 
+//bu model doğru mu bilmiyorum
