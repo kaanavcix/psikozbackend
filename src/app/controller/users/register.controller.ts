@@ -1,15 +1,22 @@
-import { PatientModel } from '../../models/patient.model';
-import{ Request,Response} from "express";
+import { UserModel } from '../../models/patient.model';
+import{ Request,Response,RequestHandler,NextFunction} from "express";
 
 export class RegisterController {
 
-  async registerUser(req: Request, res: Response){
+  register:RequestHandler  = async (req: Request, res: Response,next:NextFunction)=>{
 
-    const user:PatientModel = req.body;
+    const user:UserModel = req.body;
 
     try{
+     let data =  await UserModel.create({...user});
 
-      //db kayıt validate göre
+     return res.status(200).json({
+        success: true,
+        message: 'User Registered Successfully',
+        token: "token",
+        "data": data
+
+      })
     }
     catch(e:any){
           console.log(e);}
@@ -17,4 +24,3 @@ export class RegisterController {
   }
 }
 
-module.exports = RegisterController;

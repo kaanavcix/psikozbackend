@@ -1,5 +1,5 @@
-import LoginModel from "../models/login.model";
-import User from "../models/user";
+import LoginModel from "../../models/login.model";
+import User from "../../models/user";
 
 export interface IUserService {
 

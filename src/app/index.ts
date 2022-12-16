@@ -1,1 +1,1 @@
-//nothing
+import  Application  from './app';

@@ -1,8 +1,8 @@
-import User from '../models/user';
-import connect from './index';
+import User from '../../models/user';
+import con from "..";
 
 import { IUserService } from './base.user.service';
-import LoginModel from '../models/login.model';
+import LoginModel from '../../models/login.model';
 
 
 

@@ -20,10 +20,10 @@ public/css/main.css
 coverage
 
 # API keys and secrets
-.env
+#.env
 
 # Dependency directory
-node_modules
+**/node_modules
 bower_components
 
 # Editors
@@ -37,5 +37,5 @@ Thumbs.db
 # Ignore built ts files
 dist/**/*
 
-# ignore package.lock
+#ignore package.lock
 package-lock.json

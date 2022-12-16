@@ -1,7 +1,4 @@
-import * as dotenv from "dotenv";
-import { Application } from './app/app';
-dotenv.config();
-
+import Application  from './app/app';
 
 new Application().startServer();
 

@@ -1,26 +1,47 @@
-import User  from "./user";
+import User from "./user";
+import { Table, Column, Model, DataType } from "sequelize-typescript"
+import sequelize from "sequelize";
+
+@Table({
+  tableName: "user",
+  // modelName: "user",
+  timestamps: false,
+
+
+})
+export class UserModel extends Model {
+  @Column({ allowNull: false, type: DataType.STRING })
+  username?: string;
+  @Column({ allowNull: false, type: DataType.STRING })
+  email?: string;
+  @Column({ allowNull: false, type: DataType.STRING })
+  firstname?: string;
+  @Column({ allowNull: true, type: DataType.STRING })
+  anonimName?: string;
+  @Column({ allowNull: false, type: DataType.BOOLEAN })
+  ispatient?: boolean;
+  @Column({ allowNull: true, type: DataType.STRING })
+  image?: string;
+  @Column({ allowNull: false, type: DataType.INTEGER })
+  age?: number;
+
+  @Column({ allowNull: false, type: DataType.INTEGER })
+  gender?: number;
+
+  @Column({ primaryKey: true, autoIncrement: true, allowNull: false, type: DataType.INTEGER })
+  userid?: number;
+  @Column({ allowNull: false, type: DataType.STRING })
+  password?: string;
 
 
 
-export class PatientModel implements User {
-  id?: number | undefined;
-  firstName?: string | undefined;
-  userName?: string | undefined;
-  image?: any;
-  userId?: string | undefined;
-  email?: string | undefined;
-  password?: string | undefined;
-  claims?: any;
-  dateTime: any;
-  anonimName?:string;
+
   //daha eklerz
-  
- 
 
-  
-  
 
-  
+
 
 }
+
+//console.log(PatientModel===sequelize.Model.User)
 
