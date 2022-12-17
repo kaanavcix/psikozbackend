@@ -7,8 +7,9 @@ import rateLimit from "express-rate-limit";
 import route from "./routes/route"
 
 import { userRoute } from './routes/user/user.router';
-import { baseRoute } from './routes/user/base.route';
+import { baseRoute } from './routes/base.route';
 import { con } from './services';
+import { postRoute } from './routes/post.route';
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -37,6 +38,7 @@ export default class Application {
     this._server.use(express.urlencoded({ extended:true }));
     this._server.use(baseRoute);
   this._server.use(userRoute);
+  this._server.use(postRoute);
   this._server.use((
     err: Error,
     req: express.Request,

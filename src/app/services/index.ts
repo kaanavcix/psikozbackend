@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize-typescript";
 import { UserModel } from '../models/patient.model';
+import { Post } from "../models/post.model";
 
 
 
@@ -9,7 +10,7 @@ export const con = new Sequelize({
   ,username:"root",
   password:"1234",
   logging:false,
-  models:[UserModel]
+  models:[UserModel,Post]
 });
 
 

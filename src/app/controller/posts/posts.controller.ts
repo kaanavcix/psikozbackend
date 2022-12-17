@@ -1,46 +1,57 @@
-import { Request, Response,RequestHandler,NextFunction } from "express";
-import Post from "../../models/post.model";
+import { Request, Response, RequestHandler, NextFunction } from "express";
+import { Post } from "../../models/post.model";
+import { UserModel } from "../../models/patient.model";
+import { Column } from 'sequelize-typescript';
+import { raw } from "body-parser";
 
-export class PostController {
+export default class PostController {
 
-  private posts: Post[];
-  constructor() {
+  allPost: RequestHandler = async (req: Request, res: Response, next: NextFunction) =>
+    Post.findAll({ include: UserModel }).then((val) => res.status(200).json({
+      data: val,
+      success: true,
+    }));
 
-    this.posts = [
-      new Post(
-        "1",
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem"
-        , "sdmlasklfmnsdfsdanflsdkafnsdafnsdka"
 
-      ), new Post(
-        "2",
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem"
-        , "sdmlasklfmnsdfsdanflsdkafnsdafnsdka"
-      ),
-    ];
+
+
+  addPost: RequestHandler = async (req: Request, res: Response, next: NextFunction) =>
+    Post.create(req.body).then((val) => res.status(200).json());
+  deletePost: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
+   let data = await Post.findOne({where:{postid:req.params.id}});
+   await (data)?.destroy().then((val) => res.status(200));
+   if(data==null){
+    return res.status(404).json({
+      success: false,});
+   }
+
   }
-  allPost:RequestHandler =  async (req: Request, res: Response,next:NextFunction) => {
-  
+   updatePost: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
+if(req.body!=null)
+    await Post.findOne({where:{postid:req.params.id}}).then((value)=>{
+      value!.content = req.body;
+      value!.save();
       return res.status(200).json({
-        data: this.posts,
-        sucess:true,
+        success: true,
+      });
       })
-
-   
-
-  }
-  addPost:RequestHandler = async(req: Request, res: Response, next:NextFunction) => {
+    
+    
 
   }
-  deletePost:RequestHandler = async(req: Request, res: Response, next:NextFunction)=>{
+  postbyId: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 
-  }
-  updatePost:RequestHandler = async(req: Request, res: Response, next:NextFunction)=>{
+    Post.findOne({ where: { id: req.params.id } }).then((value) => {
 
-  }
-  postbyId:RequestHandler = async(req:Request,res:Response,next:NextFunction)=>{
+      if (value != null) {
+        res.json({
+          success: true,
+          data:value,
+
+        });
+
+      }
+    });
 
   }
 }
-
-

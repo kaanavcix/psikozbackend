@@ -1,6 +1,6 @@
-import User from "./user";
-import { Table, Column, Model, DataType } from "sequelize-typescript"
+import { Table, Column, Model, DataType, HasMany } from "sequelize-typescript"
 import sequelize from "sequelize";
+import { Post } from "./post.model";
 
 @Table({
   tableName: "user",
@@ -32,6 +32,9 @@ export class UserModel extends Model {
   userid?: number;
   @Column({ allowNull: false, type: DataType.STRING })
   password?: string;
+
+  @HasMany(()=>Post) 
+  posts?:Post[];
 
 
 
