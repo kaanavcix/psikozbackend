@@ -1,6 +1,5 @@
 # Psikoz Backend with TypeScript
 
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
 
 ## General idea
 Typescript is very well solution on app 
