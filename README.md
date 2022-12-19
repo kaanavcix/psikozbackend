@@ -1,6 +1,5 @@
 # Psikoz Backend with TypeScript
 
-
 ## General idea
 Typescript is very well solution on app 
 
@@ -14,34 +13,27 @@ Typescript is very well solution on app
 
 > If u add a package in code , u can add in here.
 
-
-
-
-
 ## Installation
 
 Requires [Node.js](https://nodejs.org/) 
 Requires[Express](https://www.npmjs.com/package/express)
 
 
-## Project add 
+## Add project 
 
 ```
-git pull https://github.com/kaanavcix/PsikozBackendTs
+git clone https://github.com/kaanavcix/PsikozBackendTs
 ```
 
-For production environments...
+then
 
 ```sh
 npm install 
 ```
-build with ts node
+run with ts-node
 
 ```
-ts-node ./src/index.ts
+npx ts-node ./src/index.ts
 ```
 
-
-## Thank u for eveything
-
- 
+## Thank u for everything

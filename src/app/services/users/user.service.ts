@@ -1,31 +1,26 @@
-import User from '../../models/user';
-import con from "..";
+class UserService {
+    getUserByEmail(loginModel: any): void {
+        throw new Error('Method not implemented.');
+    }
 
-import { IUserService } from './base.user.service';
-import LoginModel from '../../models/login.model';
+    getUserById(userId: string): any[] {
+        throw new Error('Method not implemented.');
+    }
 
+    updateUser(user: any): void {
+        throw new Error('Method not implemented.');
+    }
 
+    addUser(user: any): void {
+        throw new Error('Method not implemented.');
+    }
 
-class UserService implements IUserService{
-  getUserByEmail(loginModel: LoginModel): void {
-    throw new Error('Method not implemented.');
-  }
-  getUserbyId(userId: string): User[] {
-    throw new Error('Method not implemented.');
-  }
-  updateUser(user: User): void {
-    throw new Error('Method not implemented.');
-  }
-  addUser(user: User): void {
-    throw new Error('Method not implemented.');
-  }
-  deleteUser(userId: string): void {
-    throw new Error('Method not implemented.');
-  }
-  getUsers(): User[] {
-    throw new Error('Method not implemented.');
-  }
-  
+    deleteUser(userId: string): void {
+        throw new Error('Method not implemented.');
+    }
 
+    getUsers(): any[] {
+        throw new Error('Method not implemented.');
+    }
 }
 

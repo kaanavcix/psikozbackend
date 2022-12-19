@@ -1,26 +1,110 @@
-import { UserModel } from '../../models/patient.model';
-import{ Request,Response,RequestHandler,NextFunction} from "express";
+// noinspection SpellCheckingInspection
+
+import {RegisterModel, UserModel} from "../../models/user.model";
+import {Request, Response, RequestHandler} from "express";
+import {v4 as uuidv4} from "uuid";
+import moment from "moment";
+import crypto from "crypto";
+import validator from "email-validator";
 
 export class RegisterController {
+    register: RequestHandler = async (req: Request, res: Response) => {
+        try {
+            const { username, email, password, age, gender }: RegisterModel = req.body;
 
-  register:RequestHandler  = async (req: Request, res: Response,next:NextFunction)=>{
+            if (validator.validate(<string>email)) {
+                let emailControl = await UserModel.findAll({
+                    where: {email}
+                });
+                if (emailControl.length !== 0) {
+                    // Böyle bir e-posta daha önce kayıt olmuş
+                    return res.status(400).send({
+                        status: false,
+                        message: 0x5000
+                    });
+                }
 
-    const user:UserModel = req.body;
+                const timestamp = moment().unix();
 
-    try{
-     let data =  await UserModel.create({...user});
+                let newGender = 1;
+                if (gender === "male" || gender === "1") {
+                    newGender = 1;
+                } else if (gender === "female" || gender === "2") {
+                    newGender = 2;
+                } else {
+                    newGender = 3;
+                }
 
-     return res.status(200).json({
-        success: true,
-        message: 'User Registered Successfully',
-        token: "token",
-        "data": data
+                if (Number(age) < 18) {
+                    // Erişkin değil
+                    return res.status(400).send({
+                        status: false,
+                        message: 0x99
+                    });
+                }
 
-      })
+                let newUsername = username;
+                if (username === undefined || username.length <= 3) {
+                    // Username yok ya da 3 karakterden az
+                    return res.status(400).send({
+                        status: false,
+                        message: 0x98
+                    });
+                } else {
+                    newUsername = username.replace(/\s/g, "");
+                }
+
+                let usernameControl = await UserModel.findAll({
+                    where: {username: newUsername}
+                });
+                if (usernameControl.length !== 0) {
+                    // Bu kullanıcı adı daha önce alınmış
+                    return res.status(400).send({
+                        status: false,
+                        message: 0x4000
+                    });
+                }
+
+                if (password === undefined || password.length <= 3) {
+                    // Şifre yok ya da 3 karakterden az
+                    return res.status(400).send({
+                        status: false,
+                        message: 0x97
+                    });
+                }
+
+                const token = crypto
+                    .createHash("sha256")
+                    .update(uuidv4())
+                    .digest("hex");
+
+                const data = await UserModel.create({
+                    token,
+                    name: newUsername,
+                    username: newUsername,
+                    avatar: "",
+                    age: Number(age),
+                    gender: newGender,
+                    joined_at: timestamp,
+                    password: password,
+                    email,
+                    is_patient: false,
+                });
+
+                return res.status(200).json({
+                    status: true,
+                    message: 0x1,
+                    token,
+                });
+            } else {
+                return res.status(400).send({
+                    status: false,
+                    message: 0x4
+                });
+            }
+        } catch (e: any) {
+            console.log(e);
+        }
     }
-    catch(e:any){
-          console.log(e);}
-
-  }
 }
 
