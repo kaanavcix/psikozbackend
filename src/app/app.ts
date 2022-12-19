@@ -4,9 +4,8 @@ import cors from 'cors';
 import express, { Express, Request, Response, NextFunction, Router } from 'express';
 import bodyParser from "body-parser"
 import rateLimit from "express-rate-limit";
-import route from "./routes/route"
 
-import { userRoute } from './routes/user/user.router';
+import { userRoute } from './routes/user.router';
 import { baseRoute } from './routes/base.route';
 import { con } from './services';
 import { postRoute } from './routes/post.route';

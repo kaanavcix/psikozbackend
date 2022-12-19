@@ -1,5 +1,5 @@
 import PostController from '../controller/posts/posts.controller';
-import { Post } from './../models/post.model';
+import { Post } from '../models/post.model';
 import Router from 'express';
 
 

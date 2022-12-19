@@ -1,5 +1,5 @@
-import { LoginController } from "../../controller/users/login.controller";
-import { RegisterController } from "../../controller/users/register.controller";
+import { LoginController } from "../controller/users/login.controller";
+import { RegisterController } from "../controller/users/register.controller";
 import { Router } from "express";
 import { register } from "ts-node";
 import { NewLineKind } from "typescript";

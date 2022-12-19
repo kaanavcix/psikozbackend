@@ -1,5 +1,6 @@
 import { Request, Response, RequestHandler, NextFunction } from "express";
-import { Post } from "../../models/post.model";
+import { Post} from "../../models/post.model";
+import{Comment} from "../../models/comment.model";
 import { UserModel } from "../../models/patient.model";
 import { Column } from 'sequelize-typescript';
 import { raw } from "body-parser";
@@ -7,7 +8,7 @@ import { raw } from "body-parser";
 export default class PostController {
 
   allPost: RequestHandler = async (req: Request, res: Response, next: NextFunction) =>
-    Post.findAll({ include: UserModel }).then((val) => res.status(200).json({
+    Post.findAll({ include: [UserModel,Comment] }).then((val) => res.status(200).json({
       data: val,
       success: true,
     }));

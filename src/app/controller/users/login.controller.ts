@@ -1,6 +1,5 @@
 import { Request, Response, RequestHandler } from "express";
-import LoginModel from '../../models/login.model';
-import { UserModel } from '../../models/patient.model';
+import { UserModel, LoginModel } from '../../models/patient.model';
 
 export class LoginController {
 
@@ -8,35 +7,41 @@ export class LoginController {
 
     try {
 
-      const login: LoginModel = req.body;
-
-      let array = await UserModel.findAll({ where: { email: login.email, password: login.password, } });
-      if (array.length > 0) {
-        return res.status(200).json({
-          status: "success",
-          token: "token"
-          ,
-        });
-      }
-      else if (!login.email || !login.password) {
-        return res.status(400).json({
-          status: "error",
-          message: "Email veya Şifre hatalı"
-        });
-      }
-      else if (array.length == 0) {
-        return res.status(400).json({
-          status: "error",
-          message: "Kullanıcı bulunamadı"
-        });
-      }
+      const { email, password }: LoginModel = req.body;
+      if (email && password) {
+        let model = await UserModel.findOne({ where: { email: email,  password, } });
 
 
-    }
+        if (model !== null) {
+          return res.status(200).json({
+            status: "success",
+            message: 0x1,
+            token: model.token
+          
+        });
+        }
+        else if (!email || !password) {
+          return res.status(400).json({
+            status: false,
+            message: 0x8
+          });
+        }
+        else  {
+          return res.status(400).json({
+            status: false,
+            message: 0x4
+          });
+        }
+
+
+      }}
     catch (err: any) {
-      console.log(err);
+        return res.status(400).json({
+          status:"fatal-error",
+          message : 0x12
+        })
     }
-  }
 }
 
 
+}
