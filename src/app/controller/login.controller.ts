@@ -1,5 +1,5 @@
 import { Request, Response, RequestHandler } from "express";
-import { UserModel, LoginModel } from '../../models/patient.model';
+import { User, LoginModel } from '../models/patient.model';
 
 export class LoginController {
 
@@ -9,7 +9,7 @@ export class LoginController {
 
       const { email, password }: LoginModel = req.body;
       if (email && password) {
-        let model = await UserModel.findOne({ where: { email: email,  password, } });
+        let model = await User.findOne({ where: { email: email,  password, } });
 
 
         if (model !== null) {

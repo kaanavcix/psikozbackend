@@ -1,4 +1,4 @@
-import PostController from '../controller/posts/posts.controller';
+import PostController from '../controller/posts.controller';
 import { Post } from '../models/post.model';
 import Router from 'express';
 

@@ -1,5 +1,5 @@
-import { LoginController } from "../controller/users/login.controller";
-import { RegisterController } from "../controller/users/register.controller";
+import { LoginController } from "../controller/login.controller";
+import { RegisterController } from "../controller/register.controller";
 import { Router } from "express";
 import { register } from "ts-node";
 import { NewLineKind } from "typescript";
@@ -10,5 +10,5 @@ import { NewLineKind } from "typescript";
   let registerController:RegisterController = new RegisterController();
 
 
-  userRoute.post("/users/register",registerController.register);
-  userRoute.post("/users/login",loginController.login);
+  userRoute.post("/api/register",registerController.register);
+  userRoute.post("/api/login",loginController.login);

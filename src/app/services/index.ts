@@ -1,19 +1,22 @@
 import { Sequelize } from "sequelize-typescript";
-import { UserModel } from '../models/patient.model';
+import { User } from '../models/patient.model';
 import { Post } from "../models/post.model";
 import { Comment } from "../models/comment.model";
+import { Book } from "../models/book.model";
+import { Article, CategoryArticle } from "../models/article.model";
 
 import * as dotenv from 'dotenv';
+import { Music, Podcast, LikeMusic, LikePodcast } from '../models/music.model';
 
 dotenv.config();
 
 export const con = new Sequelize({
   database: process.env.DB_NAME,
-  dialect:"mysql"
-  ,username:process.env.DB_USERNAME,
-  password:process.env.DB_PASSWORD,
-  logging:false,
-  models:[UserModel,Post,Comment]
+  dialect: "mysql"
+  , username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  logging: false,
+  models: [User, Post, Comment, Book, Article, CategoryArticle, Music, Podcast, LikeMusic, LikePodcast]
 });
 
 

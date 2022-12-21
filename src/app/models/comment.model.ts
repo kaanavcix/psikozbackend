@@ -1,5 +1,5 @@
 import { DataType, ForeignKey, Model,BelongsTo,Column,Table } from "sequelize-typescript";
-import { UserModel } from "./patient.model";
+import { User } from "./patient.model";
 import { Post } from "./post.model";
 
 @Table({
@@ -8,7 +8,7 @@ timestamps:false,
 })
 export class Comment extends Model {
 
-@ForeignKey(()=>UserModel)
+@ForeignKey(()=>User)
 @Column
 user_id?: number;
 @Column({allowNull:true,type: DataType.STRING,})
@@ -20,8 +20,8 @@ post_id?: number;
 
 @BelongsTo(()=>Post)
 post?: Post;
-@BelongsTo(()=>UserModel)
-user?: UserModel;
+@BelongsTo(()=>User)
+user?: User;
 
 
 

@@ -1,6 +1,6 @@
 import {Comment} from './comment.model';
 import { Table, Model, DataType, Column, ForeignKey, BelongsTo, HasMany } from 'sequelize-typescript';
-import { UserModel } from './patient.model';
+import { User } from './patient.model';
 
 
 @Table({
@@ -11,15 +11,17 @@ import { UserModel } from './patient.model';
 export class Post extends Model {
 
   
-  @ForeignKey(()=>UserModel)
+  @ForeignKey(()=>User)
   @Column
   user_id?: number;
-  @BelongsTo(()=>UserModel)
-  user?: UserModel;
+  @BelongsTo(()=>User)
+  user?: User;
   @Column({allowNull:true,type: DataType.STRING,})
   category?: string;
   @Column({allowNull:false ,type: DataType.STRING,})
   content?: string;
+  @Column({type: DataType.STRING,})
+  status?:string;
   
   @HasMany(()=>Comment)
   comments?: Comment[];

@@ -5,10 +5,16 @@ import express, { Express, Request, Response, NextFunction, Router } from 'expre
 import bodyParser from "body-parser"
 import rateLimit from "express-rate-limit";
 
+
 import { userRoute } from './routes/user.router';
 import { baseRoute } from './routes/base.route';
+import { materialRoute } from './routes/material.route';
+
 import { con } from './services';
 import { postRoute } from './routes/post.route';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -38,6 +44,8 @@ export default class Application {
     this._server.use(baseRoute);
   this._server.use(userRoute);
   this._server.use(postRoute);
+  this._server.use(materialRoute);
+
   this._server.use((
     err: Error,
     req: express.Request,

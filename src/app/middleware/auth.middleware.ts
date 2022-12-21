@@ -1,6 +1,6 @@
 import jws from "jsonwebtoken";
 import { Request,Response,NextFunction } from "express";
-import { UserModel } from '../models/patient.model';
+import { User } from '../models/patient.model';
 
 
 const verifyToken  = async(req:Request,res:Response,next:NextFunction)=>{

@@ -6,7 +6,7 @@ import {v4 as uuidv4} from "uuid";
 import moment from "moment";
 import crypto from "crypto";
 import validator from "email-validator";
-import { UserModel,RegisterModel } from "../../models/patient.model";
+import { User,RegisterModel } from "../models/patient.model";
 
 export class RegisterController {
     register: RequestHandler = async (req: Request, res: Response) => {
@@ -14,7 +14,7 @@ export class RegisterController {
             const { username, email, password, age, gender,is_patient }: RegisterModel = req.body;
 
             if (validator.validate(<string>email)) {
-                let emailControl = await UserModel.findAll({
+                let emailControl = await User.findAll({
                     where: {email}
                 });
                 if (emailControl.length !== 0) {
@@ -55,7 +55,7 @@ export class RegisterController {
                     newUsername = username.replace(/\s/g, "");
                 }
 
-                let usernameControl = await UserModel.findAll({
+                let usernameControl = await User.findAll({
                     where: {username: newUsername}
                 });
                 if (usernameControl.length !== 0) {
@@ -79,7 +79,7 @@ export class RegisterController {
                     .update(uuidv4())
                     .digest("hex");
 
-                const data = await UserModel.create({
+                const data = await User.create({
                     token,
                     name: newUsername,
                     username: newUsername,

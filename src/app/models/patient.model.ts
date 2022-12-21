@@ -9,7 +9,7 @@ import { Post } from "./post.model";
 
 
 })
-export class UserModel extends Model {
+export class User extends Model {
   @Column({ primaryKey: true, autoIncrement: true, allowNull: false, type: DataType.INTEGER })
   id?: number;
   @Column({ allowNull: false, type: DataType.STRING })
@@ -37,13 +37,13 @@ export class UserModel extends Model {
   @HasMany(()=>Post) 
   posts?:Post[];
 
+
 }
 
 export class LoginModel extends Model{
 
   email?:string;
   password?:string;
-
 
 }
 
