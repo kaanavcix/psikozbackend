@@ -11,10 +11,10 @@ import { Music, Podcast, LikeMusic, LikePodcast } from '../models/music.model';
 dotenv.config();
 
 export const con = new Sequelize({
-  database: process.env.DB_NAME,
+  database: "psikoz",
   dialect: "mysql"
-  , username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
+  , username: "root",
+  password: "1234",
   logging: false,
   models: [User, Post, Comment, Book, Article, CategoryArticle, Music, Podcast, LikeMusic, LikePodcast]
 });
