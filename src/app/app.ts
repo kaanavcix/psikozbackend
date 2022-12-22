@@ -31,7 +31,6 @@ export default class Application {
     this._server = express();
      this._router =Router();
     this._server.set('port', process.env.PORT || 8080);
-    this._server.set("host", process.env.HOST || "localhost");
     this._server.use(bodyParser.json());
     this._server.use(cors({
       origin: '*', // default but ı will change
@@ -62,7 +61,6 @@ export default class Application {
 
   public startServer():void{
   
-    const host:string = this._server.get("host");
     const port:number = this._server.get("port");
     con
   .sync()
@@ -72,7 +70,7 @@ export default class Application {
   .catch((err:any) => {
     console.log("Error", err);
   });
-    this._server.listen(port,host,()=>{
+    this._server.listen(port,()=>{
       console.log(`Server is running on port ${port}`);
     });
     
