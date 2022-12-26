@@ -10,7 +10,10 @@ export class MaterialController {
 
 
   getbooks: RequestHandler = async (req: Request, res: Response) => {
-    Book.findAll().then((value) => res.status(200).json(value));
+    Book.findAll().then((value) => res.status(200).json({
+      sucess:true,
+      data: value
+    }));
 
   }
 
@@ -58,6 +61,7 @@ export class MaterialController {
 
     Promise.all(data).then((data) =>
       res.status(200).json({
+        status: true,
         data: data,
       }));
 

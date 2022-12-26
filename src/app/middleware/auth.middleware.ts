@@ -1,19 +1,59 @@
 import jws from "jsonwebtoken";
-import { Request,Response,NextFunction } from "express";
+import { Request,Response,NextFunction,RequestHandler } from "express";
 import { User } from '../models/patient.model';
 
 
-const verifyToken  = async(req:Request,res:Response,next:NextFunction)=>{
 
-  const authead= req.headers.token;
-  if(authead){
-   
-    const token = (authead as string).split(" ")[1];
-    jws.verify(token,"ecom",(err,user)=>{
-      
+export const verifyToken: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
+
+  const token = req.headers.token;
+
+  if (token !== null) {
+    User.findOne({
+      where: {
+        token: token,
+      }
+    });
+  }
+
+
+
+  next((err: Error) => {
+    return res.status(404).send({
+      message: err.message,
+      status: false,
 
     })
+  });
+}
 
+export const verifyDoctor: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
+  const token = req.headers.token;
+  console.log(token);
+  if (token === null || token === undefined) {
+
+    return res.status(404).send({
+      message: "error",
+    });
   }
+
+
+  var data = await User.findOne({
+    where: {
+      token: token,
+    }
+  });
+  if (data === null) {
+    return res.status(404).send({
+      message: "error message",
+    });
+  }
+  if (data?.is_patient == false) {
+    next();
+  }
+
+
+
+
 }
 

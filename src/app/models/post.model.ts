@@ -16,11 +16,11 @@ export class Post extends Model {
   user_id?: number;
   @BelongsTo(()=>User)
   user?: User;
-  @Column({allowNull:true,type: DataType.STRING,})
+  @Column({allowNull:true,type: DataType.STRING,defaultValue:"Psikolojik Problemler"})
   category?: string;
   @Column({allowNull:false ,type: DataType.STRING,})
   content?: string;
-  @Column({type: DataType.STRING,})
+  @Column({type: DataType.STRING,defaultValue:"1"})
   status?:string;
   
   @HasMany(()=>Comment)
@@ -37,3 +37,19 @@ export class Post extends Model {
 
 
 //bu model doğru mu bilmiyorum
+
+
+export class PostInput  extends Model{
+
+
+  user_id?: number;
+  content?: string;
+}
+
+
+export class StatusModel extends Model{
+  
+  id?:number;
+  name?:string;
+  
+}

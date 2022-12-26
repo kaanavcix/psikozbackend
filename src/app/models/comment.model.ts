@@ -26,3 +26,12 @@ user?: User;
 
 
 }
+
+
+
+export class CommentModel {
+
+  user_id?: number;
+  comment?: string;
+  
+}

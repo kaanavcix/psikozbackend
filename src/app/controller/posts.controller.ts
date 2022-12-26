@@ -1,5 +1,5 @@
 import { Request, Response, RequestHandler, NextFunction } from "express";
-import { Post } from "../models/post.model";
+import { Post, PostInput } from "../models/post.model";
 import { Comment } from "../models/comment.model";
 import { User } from "../models/patient.model";
 import { Column } from 'sequelize-typescript';
@@ -11,20 +11,68 @@ export default class PostController {
   allPost: RequestHandler = async (req: Request, res: Response, next: NextFunction) =>
     Post.findAll({ include: [User, Comment], where: { status: "1" } }).then((val) => {
 
+      var result = val.map((post) => {
+
+
+
+        var data = {
+          id: post.id,
+          content: post.content,
+          status: post.status,
+          category: post.category,
+          username: post.user?.username,
+          age: post.user?.age,
+          comment: post.comments,
+          gender: post.user?.gender,
+          name: post.user?.name,
+          avatar: post.user?.avatar,
+
+
+
+
+        }
+        return data;
+      });
+
       res.status(200).json({
-        data: val,
+        data: result,
         success: true,
       })
     });
 
+  //status ile ilgili enum yapısı oluştur
 
 
 
-  addPost: RequestHandler = async (req: Request, res: Response, next: NextFunction) =>
-    Post.create(req.body).then((val) => res.status(200).json());
+
+  addPost: RequestHandler = async (req: Request, res: Response,) => {
+
+    const { user_id, content }: PostInput = req.body;
+
+    var result = await User.findOne({ where: { id: user_id } });
+
+    if (result != null) {
+      Post.create(req.body).then((val) => res.status(200).json({
+        "success": true,
+
+      }));
+    }
+
+    if (result == null) {
+      return res.status(400).json({
+        success: false,
+        message: "User not found",
+      });
+
+
+    }
+  }
   deletePost: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     let data = await Post.findOne({ where: { postid: req.params.id } });
-    await (data)?.destroy().then((val) => res.status(200));
+    await (data)?.destroy().then((val) => res.status(200).json({
+      "success": true,
+
+    }));
     if (data == null) {
       return res.status(404).json({
         success: false,

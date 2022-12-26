@@ -18,20 +18,23 @@ export class User extends Model {
   name?: string;
   @Column({ allowNull: true, type: DataType.STRING })
   username?: string;
-  @Column({ allowNull: false, type: DataType.STRING})
+  @Column({ allowNull: true, type: DataType.STRING})
   avatar?: string;
-  @Column({ allowNull: false, type: DataType.INTEGER })
+  @Column({ allowNull: true, type: DataType.INTEGER })
   age?: number;
-  @Column({ allowNull: false, type: DataType.INTEGER })
+  @Column({ allowNull: true, type: DataType.INTEGER })
   gender?: number;
-  @Column({ allowNull: false, type: DataType.STRING })
+  @Column({ allowNull: true, type: DataType.STRING })
   joined_at?: number;
-  @Column({ allowNull: false, type: DataType.STRING })
+  @Column({ allowNull: true, type: DataType.STRING })
   email?: string;
-  @Column({ allowNull: false, type: DataType.STRING })
+  @Column({ allowNull: true, type: DataType.STRING })
   password?: string;
+  @Column({ allowNull: true, type: DataType.STRING })
+  description?:string;
 
-  @Column({ allowNull: false, type: DataType.BOOLEAN })
+
+  @Column({ allowNull: false, type: DataType.BOOLEAN ,defaultValue:true})
   is_patient?: boolean;
 
   @HasMany(()=>Post) 
@@ -55,5 +58,21 @@ export class RegisterModel extends Model {
   password?: string;
   age?: string;
   gender?: string;
-  is_patient?:boolean;
+  is_patient?: boolean;
+
 }
+
+export class TokenModel{
+  token?:string;
+}
+
+
+export class GenderModel extends Model{
+
+  @Column({ allowNull: true, type: DataType.INTEGER })
+  id?:number;
+  @Column({ allowNull: true, type: DataType.STRING })
+  name?:string;
+  
+
+} 

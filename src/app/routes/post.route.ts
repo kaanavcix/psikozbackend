@@ -1,18 +1,22 @@
+import { CommentController } from '../controller/comment.controller';
 import PostController from '../controller/posts.controller';
-import { Post } from '../models/post.model';
 import Router from 'express';
-
+import { verifyDoctor, verifyToken } from '../middleware/auth.middleware';
 
 
 export const postRoute = Router();
 
-const  postcontroller = new PostController();
+const postcontroller = new PostController();
+const commentcontroller = new CommentController();
 
-postRoute.get("/posts",postcontroller.allPost);
+postRoute.get("/api/posts", postcontroller.allPost);
 
-postRoute.post("/post",postcontroller.addPost);
+postRoute.post("/api/post", postcontroller.addPost);
 
-postRoute.get("/post/:id",postcontroller.postbyId);
+postRoute.get("/api/post/:id", postcontroller.postbyId);
 
-postRoute.delete("/post/:id",postcontroller.deletePost);
-postRoute.put("/post/:id",postcontroller.updatePost);
+postRoute.delete("/api/post/:id", postcontroller.deletePost);
+postRoute.put("/api/post/:id", postcontroller.updatePost);
+
+postRoute.post("/api/post/:id/comment", verifyDoctor, commentcontroller.addComment)
+postRoute.delete("/api/post/:post_id/comment/:id")
