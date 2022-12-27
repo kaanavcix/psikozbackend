@@ -46,6 +46,19 @@ export class User extends Model {
 
 }
 
+
+@Table({
+  tableName:"gender"
+  ,timestamps:false
+})
+export class Gender extends Model{
+  @Column({ primaryKey: true, autoIncrement: true, allowNull: false, type: DataType.INTEGER })
+  id?: number;
+  @Column({type:DataType.STRING,})
+  name?:string;
+
+}
+
 export class LoginModel extends Model{
 
   email?:string;
