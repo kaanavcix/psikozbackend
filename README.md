@@ -38,37 +38,56 @@ Hello friends, Please here lets add api url.
 #### Register
 - /api/register
 - [x] General register processing 
+- Doktorlardan ilgili belgeleri almak için model oluşturulması.
 
 
 ### Home Screen
 
 #### Search 
+-Kişinin podcast makale kitap aratması yapabilmesi ilgili sayfaya gidebilmesi
 
 #### Natifications
+
+- Eğer ki kullanıcının problemine yanıt gelirse bildirim düşmesi yada takip ettiği doktorların paylaştığı içerikler
 #### Book Article Music Podcast Suggestion System 
 
-> [x]get music
-- /api/musics
+- [x]get music
+> /api/musics
 
-> [x]get book
-- /api/books
+- [x]get book
+> /api/books
 
-> [x]get article 
-- /api/articles
+- [x]get article 
+> /api/articles
 
-> [x]get podcast
-- /api/podcasts
+- [x]get podcast
+> /api/podcasts
+
+- [] add podcast
+
+- [] add articles
+- [] 
+>yapılacak
 
 > add update delete article getby id also 
 
 > add update delete podcast  getby id also
 
+> bu kısım için son olarak 
 #### Post Screen
 > verify post return 
 
-> add post
+> Bu kıımda
 
-> Relating to post comment wait page
+
+- [x] add post
+> /api/post
+- [x] add comment by post 
+> /api/post/:id/comment
+
+
+- [] randevu sistemi 
+- [] Görüntülü görüşme 
 
 #### Profile Screen 
 
@@ -78,6 +97,14 @@ Hello friends, Please here lets add api url.
 
 
 
+
+## Mete yapmanı istediklerim
+
+Kayıt ol kısmında dosya ekleme kısmı
+Search kısmı 
+Kullanıcı fotoğraf ekleme
+Makale fotoğraf ekleme
+Muzik ve podcast ekleme bunu url ile mi yapalım yoksa backende mi direkt bilemedim 
 ## Project add 
 ```
 git pull https://github.com/kaanavcix/PsikozBackendTs
