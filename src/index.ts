@@ -1,3 +1,3 @@
-import Application  from './app/app';
+import Application  from "./app/app";
 new Application().startServer();
 
