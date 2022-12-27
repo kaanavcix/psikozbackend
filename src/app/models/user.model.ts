@@ -1,8 +1,6 @@
 import { Table, Column, Model, DataType, HasMany, Default } from "sequelize-typescript"
 import sequelize from "sequelize";
 import { Post } from "./post.model";
-import { Comment } from "./comment.model";
-
 
 @Table({
   tableName: "user",
@@ -34,28 +32,14 @@ export class User extends Model {
   password?: string;
   @Column({ allowNull: true, type: DataType.STRING })
   description?:string;
+
+
   @Column({ allowNull: false, type: DataType.BOOLEAN ,defaultValue:true})
   is_patient?: boolean;
 
   @HasMany(()=>Post) 
   posts?:Post[];
 
- @HasMany(()=>Comment)
- comment?:Comment[];
-
-
-}
-
-
-@Table({
-  tableName:"gender"
-  ,timestamps:false
-})
-export class Gender extends Model{
-  @Column({ primaryKey: true, autoIncrement: true, allowNull: false, type: DataType.INTEGER })
-  id?: number;
-  @Column({type:DataType.STRING,})
-  name?:string;
 
 }
 

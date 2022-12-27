@@ -11,7 +11,7 @@ export class MaterialController {
 
   getbooks: RequestHandler = async (req: Request, res: Response) => {
     Book.findAll().then((value) => res.status(200).json({
-      sucess:true,
+      sucess: true,
       data: value
     }));
 
@@ -49,9 +49,9 @@ export class MaterialController {
       return {
         id: value.id,
         title: value.title,
-        summary: value.summary,
+
         content: value.content,
-        image: value.image,
+        image: value.image_path,
         createdAt: value.createdAt,
         categoryName: datas?.name
       }
@@ -92,5 +92,29 @@ export class MaterialController {
       data: model,
     })
   }
+
+
+  addArticle: RequestHandler = async (req: Request, res: Response) => {
+
+    let { title, content, category_id } = req.body;
+
+    let time = moment().unix();
+
+
+    let model = await Article.create({
+      title: title,
+      content: content,
+      category_id: category_id,
+      image_path: req.file?.path,
+      created_at: time
+    });
+
+    if (model !== null) {
+      res.send({
+        success: true
+      })
+    }
+
+  };
 }
 

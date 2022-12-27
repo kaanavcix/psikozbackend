@@ -11,7 +11,7 @@ import { User,RegisterModel } from "../models/user.model";
 export class RegisterController {
     register: RequestHandler = async (req: Request, res: Response) => {
         try {
-            const { username, email, password, age, gender,is_patient }: RegisterModel = req.body;
+            const { username, email, password, age, gender, is_patient }: RegisterModel = req.body;
 
             if (validator.validate(<string>email)) {
                 let emailControl = await User.findAll({
@@ -88,8 +88,9 @@ export class RegisterController {
                     gender: newGender,
                     joined_at: timestamp,
                     password: password,
+                    doctor_file: req.file?.path,
                     email,
-                    is_patient: is_patient||false,
+                    is_patient: is_patient || false,
                 });
 
                 return res.status(200).json({

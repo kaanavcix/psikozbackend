@@ -16,12 +16,12 @@ export class Article extends Model{
   @Column({ type: DataType.STRING, allowNull:true})
   content?: string;
   @Column({ type: DataType.STRING, allowNull:true})
-  summary?: string;
-  @Column({ type: DataType.BLOB, allowNull:true})
-  image: any;
+  image_path?: string;
+  
   @Column({ type: DataType.STRING, allowNull:true})
   created_at?: any;
-  @Column
+  
+  @Column({type:DataType.INTEGER, allowNull:true})
   category_id?: number;
 }
 
