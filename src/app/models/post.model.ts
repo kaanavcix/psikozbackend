@@ -1,6 +1,6 @@
 import {Comment} from './comment.model';
-import { Table, Model, DataType, Column, ForeignKey, BelongsTo, HasMany } from 'sequelize-typescript';
-import { User } from './patient.model';
+import { Table, Model, DataType, Column, ForeignKey, BelongsTo, HasMany, PrimaryKey } from 'sequelize-typescript';
+import { User } from './user.model';
 
 
 @Table({
@@ -10,13 +10,14 @@ import { User } from './patient.model';
 })
 export class Post extends Model {
 
-  
+  @Column({autoIncrement:true,primaryKey:true,type:DataType.INTEGER})
+  id?: number;
   @ForeignKey(()=>User)
   @Column
   user_id?: number;
   @BelongsTo(()=>User)
   user?: User;
-  @Column({allowNull:true,type: DataType.STRING,defaultValue:"Psikolojik Problemler"})
+  @Column({allowNull:true,type: DataType.STRING,defaultValue:""})
   category?: string;
   @Column({allowNull:false ,type: DataType.STRING,})
   content?: string;

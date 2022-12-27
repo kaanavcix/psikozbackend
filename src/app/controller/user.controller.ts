@@ -1,5 +1,5 @@
 import { RequestHandler, Response, Request } from 'express';
-import { User, TokenModel } from '../models/patient.model';
+import { User, TokenModel } from '../models/user.model';
 
 
 export class UserController {

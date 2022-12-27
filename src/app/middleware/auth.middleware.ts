@@ -1,6 +1,6 @@
 import jws from "jsonwebtoken";
 import { Request,Response,NextFunction,RequestHandler } from "express";
-import { User } from '../models/patient.model';
+import { User } from '../models/user.model';
 
 
 
@@ -50,6 +50,14 @@ export const verifyDoctor: RequestHandler = async (req: Request, res: Response, 
   }
   if (data?.is_patient == false) {
     next();
+  }
+
+  if(data.is_patient == true) {
+
+    return res.status(404).send({
+      message:"user is patient",
+      sucess:false
+    })
   }
 
 

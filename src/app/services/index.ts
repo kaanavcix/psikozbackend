@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize-typescript";
-import { User } from '../models/patient.model';
+import { User } from '../models/user.model';
 import { Post } from "../models/post.model";
 import { Comment } from "../models/comment.model";
 import { Book } from "../models/book.model";

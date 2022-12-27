@@ -20,3 +20,5 @@ postRoute.put("/api/post/:id", postcontroller.updatePost);
 
 postRoute.post("/api/post/:id/comment", verifyDoctor, commentcontroller.addComment)
 postRoute.delete("/api/post/:post_id/comment/:id")
+postRoute.get("/api/post/:id/comments",commentcontroller.getComments)
+

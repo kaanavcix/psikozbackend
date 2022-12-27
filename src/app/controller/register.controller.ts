@@ -6,7 +6,7 @@ import {v4 as uuidv4} from "uuid";
 import moment from "moment";
 import crypto from "crypto";
 import validator from "email-validator";
-import { User,RegisterModel } from "../models/patient.model";
+import { User,RegisterModel } from "../models/user.model";
 
 export class RegisterController {
     register: RequestHandler = async (req: Request, res: Response) => {

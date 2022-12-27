@@ -1,5 +1,5 @@
 import { Request, Response, RequestHandler } from "express";
-import { User, LoginModel } from '../models/patient.model';
+import { User, LoginModel } from '../models/user.model';
 
 export class LoginController {
 

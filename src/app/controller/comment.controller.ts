@@ -2,6 +2,7 @@ import { RequestHandler, Request, Response } from 'express';
 import { CommentModel } from '../models/comment.model';
 import { Comment } from "./../models/comment.model";
 import moment from 'moment';
+import { User } from '../models/user.model';
 
 
 export class CommentController {
@@ -9,20 +10,23 @@ export class CommentController {
   addComment: RequestHandler = async (req: Request, res: Response) => {
 
 
-    var data: CommentModel = req.body;
+    var {user_id,comment}: CommentModel = req.body;
 
     var time = moment().unix();
 
     Comment.create({
-      user_id: data.user_id,
+      user_id: user_id,
 
-      comment: data.comment,
+      comment: comment,
       joined_at: time,
       post_id: req.params.id,
 
     });
     var reso = await Comment.findAll();
-    res.status(201).json(reso);
+    res.status(200).send({
+      result:true,
+
+    });
   };
 
   deleteComment: RequestHandler = async (req: Request, res: Response) => {
@@ -44,4 +48,38 @@ export class CommentController {
 
     })
   }
+
+  getComments: RequestHandler = async (req: Request, res: Response) => {
+
+    var result = await Comment.findAll({ where: { post_id: req.params.id, },include:[User] });
+
+
+   var data =  result.map((comment)=>{
+
+      var endData = {
+        id:comment.id,
+        post_id:comment.post_id,
+        user_id:comment.user_id,
+        username:comment.user?.username,
+        name:comment.user?.name,
+        comment:comment.comment,
+        joined_at:comment.joined_at,
+
+
+      }
+      return endData;
+    })
+
+    return res.status(200).send({
+      success:true,
+    
+      data: data,
+    });
+
+
+  };
+
+
+
 }
+

@@ -1,5 +1,5 @@
 import { DataType, ForeignKey, Model,BelongsTo,Column,Table } from "sequelize-typescript";
-import { User } from "./patient.model";
+import { User } from "./user.model";
 import { Post } from "./post.model";
 
 @Table({
@@ -22,6 +22,8 @@ post_id?: number;
 post?: Post;
 @BelongsTo(()=>User)
 user?: User;
+
+
 
 
 

@@ -1,7 +1,7 @@
 import { Request, Response, RequestHandler, NextFunction } from "express";
 import { Post, PostInput } from "../models/post.model";
 import { Comment } from "../models/comment.model";
-import { User } from "../models/patient.model";
+import { User } from "../models/user.model";
 import { Column } from 'sequelize-typescript';
 import { raw } from "body-parser";
 import { v4 as uuidv4 } from 'uuid';
@@ -49,17 +49,20 @@ export default class PostController {
 
     const { user_id, content }: PostInput = req.body;
 
-    var result = await User.findOne({ where: { id: user_id } });
-
-    if (result != null) {
-      Post.create(req.body).then((val) => res.status(200).json({
+    var result = await User.findAll({ where: { id: user_id } });
+ 
+    if (result.length!==0) {
+    await  Post.create({
+        user_id: user_id,
+        content:content,
+      }).then((val) => res.status(200).json({
         "success": true,
 
       }));
     }
 
-    if (result == null) {
-      return res.status(400).json({
+    if (result.length===0) {
+      return res.status(404).json({
         success: false,
         message: "User not found",
       });
