@@ -12,7 +12,7 @@ export class LoginController {
 
                 if (model !== null) {
                     return res.status(200).json({
-                        status: "success",
+                        status: true,
                         message: 0x1,
                         token: model.token
                     });

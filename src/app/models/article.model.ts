@@ -17,10 +17,11 @@ export class Article extends Model{
   content?: string;
   @Column({ type: DataType.STRING, allowNull:true})
   image_path?: string;
-  
+  @Column({ type: DataType.STRING, allowNull:true})
+  writer?: string
   @Column({ type: DataType.STRING, allowNull:true})
   created_at?: any;
-  
+
   @Column({type:DataType.INTEGER, allowNull:true})
   category_id?: number;
 }

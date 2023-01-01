@@ -20,7 +20,7 @@ export class MaterialController {
 
   addbooks: RequestHandler = async (req: Request, res: Response) => {
 
-    const { title, summary, content }: Book = req.body;
+    const { title, summary, content, }: Book = req.body;
     const timestamp = moment().unix();
 
     if (title !== null) {
@@ -28,7 +28,7 @@ export class MaterialController {
         title: title,
         content: content,
         summary: summary,
-        image: null,
+        image: req.file?.path,
         createdAt: timestamp,
 
       }).then((value) => res.status(200).json({

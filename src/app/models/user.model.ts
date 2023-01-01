@@ -32,8 +32,8 @@ export class User extends Model {
   password?: string;
   @Column({ allowNull: true, type: DataType.STRING })
   description?:string;
-
-
+  @Column({ allowNull: true, type: DataType.STRING })
+  doctor_file?:string;
   @Column({ allowNull: false, type: DataType.BOOLEAN ,defaultValue:true})
   is_patient?: boolean;
 
@@ -53,12 +53,13 @@ export class LoginModel extends Model{
 
 // TODO: Taslak model sen bi yine de bakarsın
 export class RegisterModel extends Model {
+  name?:string;
   username?: string;
   email?: string;
   password?: string;
   age?: string;
   gender?: string;
-  is_patient?: boolean;
+  is_patient?: string;
 
 }
 

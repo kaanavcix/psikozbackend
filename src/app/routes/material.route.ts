@@ -6,14 +6,14 @@ export const materialRoute = Router();
 
 const materialController: MaterialController = new MaterialController();
 
-// GET
+//TODO: GET
 materialRoute.get("/api/books",materialController.getbooks);
 materialRoute.get("/api/articles",materialController.getarticles);
 materialRoute.get("/api/musics",materialController.getmusic);
 materialRoute.get("/api/podcasts",materialController.getpodcast);
 
-// POST
-materialRoute.post("/api/book",materialController.addbooks);
-
+//TODO: POST
+materialRoute.post("/api/book",upload.single("image"),materialController.addbooks);
 materialRoute.post("/api/article",upload.single("image"),materialController.addArticle);
+
 

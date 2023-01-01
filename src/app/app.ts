@@ -1,4 +1,4 @@
-import cors from "cors";
+import cors  from 'cors';
 import express, { Express, Router } from 'express';
 import bodyParser from "body-parser"
 import rateLimit from "express-rate-limit";
@@ -9,6 +9,8 @@ import { con } from "./services";
 import { postRoute } from "./routes/post.route";
 import * as dotenv from "dotenv";
 import {createServer } from "http";
+import { onboardingRoute } from './routes/onboarding.route';
+import { corsOptions } from './helpers/cors.options';
 
 dotenv.config();
 
@@ -31,9 +33,8 @@ export default class Application {
         this._server.set("port", process.env.PORT || 8081);
         this._server.use(bodyParser.json());
         this._server.use(cors({
-            origin: "*",
-            credentials: true,
-            methods: "GET,PUT,POST,DELETE"
+            origin:"*",
+            methods:"GET,PUT,POST,DELETE"
         }));
         this._server.use(limiter);
         this._server.use(express.urlencoded({ extended: true }));
@@ -41,6 +42,8 @@ export default class Application {
         this._server.use(userRoute);
         this._server.use(postRoute);
         this._server.use(materialRoute);
+        this._server.use(onboardingRoute);
+        this._server.use(express.static("uploads"));
         this._server.use((
             err: Error,
             req: express.Request,

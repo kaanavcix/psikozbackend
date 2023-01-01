@@ -3,13 +3,13 @@ import multer from 'multer';
 
 
 
-function FileFilter(req:any, file: Express.Multer.File, cb: any) {
+function FileFilter(req: any, file: Express.Multer.File, cb: any) {
 
-  const MineTypes = ["image/png", "image/jpg", "image/jpeg"]
+  const MineTypes = ["image/png", "image/jpg", "image/jpeg","application/pdf"]
 
 
   if (!MineTypes.includes(file.mimetype)) {
-    cb(new Error("Bu dosya tipi desteklenmemektedir" + file.mimetype), false);
+    cb(new Error("Bu dosya tipi desteklenmemektedir" + " " + file.mimetype), false);
 
   }
   cb(null, true);
@@ -37,7 +37,7 @@ const storage = multer.diskStorage(
 
       const uniquePath = Date.now() + "." + file.originalname.split(".")[file.originalname.split(".").length - 1];
 
-      cb(null, file.filename + "-" + uniquePath);
+      cb(null, file.originalname.split(".")[0] + "-" + uniquePath);
 
     }
 
@@ -48,12 +48,34 @@ const storage = multer.diskStorage(
 export const upload = multer({
 
   storage: storage,
-  fileFilter: FileFilter,
- // dest?:"/uploads"  
- 
+  
+ // fileFilter: FileFilter,
+  // dest?:"/uploads"  
+
 
 
 });
 
 
 //middleware yazdım image upload için
+
+
+
+
+/* const upload = multer({
+    storage: multer.diskStorage({
+        destination: (req: Request, file: any, cb: any) => {
+            const directory = `./uploads/`
+
+            if (!fs.existsSync(directory)) {
+                fs.mkdirSync(directory, { recursive: true })
+            }
+
+            cb(null, directory)
+        },
+        filename: (req: Request, file: any, cb: any) => {
+            cb(null, `${Date.now()}.${file.originalname.split(".")[file.originalname.split(".").length - 1]}`)
+        }
+    })
+});
+*/

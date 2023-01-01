@@ -11,7 +11,7 @@ import { User,RegisterModel } from "../models/user.model";
 export class RegisterController {
     register: RequestHandler = async (req: Request, res: Response) => {
         try {
-            const { username, email, password, age, gender, is_patient }: RegisterModel = req.body;
+            const { name,username, email, password, age, gender, is_patient }: RegisterModel = req.body;
 
             if (validator.validate(<string>email)) {
                 let emailControl = await User.findAll({
@@ -74,6 +74,8 @@ export class RegisterController {
                     });
                 }
 
+                const is_patient_new = is_patient=="1"?true :false;
+
                 const token = crypto
                     .createHash("sha256")
                     .update(uuidv4())
@@ -81,7 +83,7 @@ export class RegisterController {
 
                 const data = await User.create({
                     token,
-                    name: newUsername,
+                    name: name,
                     username: newUsername,
                     avatar: "",
                     age: Number(age),
@@ -90,7 +92,7 @@ export class RegisterController {
                     password: password,
                     doctor_file: req.file?.path,
                     email,
-                    is_patient: is_patient || false,
+                    is_patient: is_patient_new || false,
                 });
 
                 return res.status(200).json({
