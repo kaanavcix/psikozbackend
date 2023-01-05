@@ -16,14 +16,16 @@ export class Article extends Model{
   @Column({ type: DataType.STRING, allowNull:true})
   content?: string;
   @Column({ type: DataType.STRING, allowNull:true})
-  image_path?: string;
+  image?: string;
   @Column({ type: DataType.STRING, allowNull:true})
   writer?: string
-  @Column({ type: DataType.STRING, allowNull:true})
+  @Column({ type: DataType.INTEGER, allowNull:true})
   created_at?: any;
-
+   
   @Column({type:DataType.INTEGER, allowNull:true})
   category_id?: number;
+@HasMany(()=>ArticleLike)
+likes?:ArticleLike[];
 }
 
 
@@ -39,4 +41,28 @@ export class CategoryArticle extends Model{
 
 
 
+}
+
+
+
+@Table({
+  tableName:"articlelike",
+  timestamps:false
+})
+
+
+export class ArticleLike extends Model{ 
+  @Column({type:DataType.INTEGER,allowNull:false,primaryKey:true,autoIncrement:true})
+  id?: number;
+
+  @ForeignKey(()=> Article)
+  @Column({type:DataType.INTEGER, allowNull:false})
+  article_id?:number;
+
+  @BelongsTo(()=>Article)
+  article?:Article;
+
+
+  @Column({type:DataType.INTEGER,allowNull:true,})
+  user_id?:number;
 }

@@ -35,7 +35,9 @@ export class Podcast extends Model {
   @Column({ type: DataType.STRING, allowNull:true})
   content?: string;
   @Column({ type: DataType.STRING, allowNull:true})
-  url?:string;
+  podcast_path?:string;
+  @Column({ type: DataType.STRING, allowNull:true})
+  created_at?: string
 
  @HasMany(()=>LikePodcast)
   likes?:LikePodcast[];

@@ -1,6 +1,7 @@
 import { Table, Column, Model, DataType, HasMany, Default } from "sequelize-typescript"
 import sequelize from "sequelize";
 import { Post } from "./post.model";
+import { BookLike } from "./book.model";
 
 @Table({
   tableName: "user",
@@ -39,6 +40,8 @@ export class User extends Model {
 
   @HasMany(()=>Post) 
   posts?:Post[];
+  
+  
 
 
 }

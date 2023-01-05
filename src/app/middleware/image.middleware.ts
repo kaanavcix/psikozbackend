@@ -5,7 +5,7 @@ import multer from 'multer';
 
 function FileFilter(req: any, file: Express.Multer.File, cb: any) {
 
-  const MineTypes = ["image/png", "image/jpg", "image/jpeg","application/pdf"]
+  const MineTypes = ["image/png", "image/jpg", "image/jpeg", "application/pdf","audio/mpeg","audio/wav"]
 
 
   if (!MineTypes.includes(file.mimetype)) {
@@ -15,41 +15,40 @@ function FileFilter(req: any, file: Express.Multer.File, cb: any) {
   cb(null, true);
 
 
+
 }
 
 
-const storage = multer.diskStorage(
-  {
 
-    destination: (req, file, cb) => {
-      const filePath = "./uploads"; //metehanın pathe ekleriz diye böyle yaptım
+const strogae = multer.diskStorage({
+  destination: (req, file, callback) => {
+    const filePath = "./uploads";
 
-      if (!fs.existsSync(filePath)) { //file system bulamazsa oluşturucak klasör çokluğu olmasın burda toplarız
+    fs.mkdirSync(filePath, {
+      recursive: true,
+    });
 
-        fs.mkdirSync(filePath, {
-          recursive: true
-        });
-      }
-      cb(null, filePath);
+    callback(null, filePath);
 
-    },
-    filename: (req, file, cb) => {
+  },
+  filename: (req, file, callback) => {
 
-      const uniquePath = Date.now() + "." + file.originalname.split(".")[file.originalname.split(".").length - 1];
 
-      cb(null, file.originalname.split(".")[0] + "-" + uniquePath);
+    const extension = file.mimetype.split("/")[1];
 
-    }
 
-  }
-);
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+
+    callback(null, file.originalname.split(".")[0] + "-" + "psikoz" + uniqueSuffix + "." + "." + extension);
+  },
+});
 
 
 export const upload = multer({
 
-  storage: storage,
-  
- // fileFilter: FileFilter,
+  storage: strogae,
+
+  fileFilter: FileFilter,
   // dest?:"/uploads"  
 
 
@@ -57,25 +56,4 @@ export const upload = multer({
 });
 
 
-//middleware yazdım image upload için
 
-
-
-
-/* const upload = multer({
-    storage: multer.diskStorage({
-        destination: (req: Request, file: any, cb: any) => {
-            const directory = `./uploads/`
-
-            if (!fs.existsSync(directory)) {
-                fs.mkdirSync(directory, { recursive: true })
-            }
-
-            cb(null, directory)
-        },
-        filename: (req: Request, file: any, cb: any) => {
-            cb(null, `${Date.now()}.${file.originalname.split(".")[file.originalname.split(".").length - 1]}`)
-        }
-    })
-});
-*/
