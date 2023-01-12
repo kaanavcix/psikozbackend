@@ -11,8 +11,17 @@ import * as dotenv from "dotenv";
 import {createServer } from "http";
 import { onboardingRoute } from './routes/onboarding.route';
 import { corsOptions } from './helpers/cors.options';
+import WebSocket from "./services/websocket";
 
 dotenv.config();
+
+const io = require("socket.io")("http://localhost:3000", {
+     path: "/transporter/",
+     cors: {
+         origin: "*",
+         methods: ["GET", "POST"]
+     }
+})
 
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -20,6 +29,14 @@ const limiter = rateLimit({
     message: "Yavaş la gardaş server çökertcen"
 });
 
+const websocket = new WebSocket(); // socket kodları buraya aktarılacak
+io.on("connection", (socket: any) => {
+    console.log(socket);
+
+    socket.on("disconnect", () => {
+        console.log("birisi socketten ayrıldı");
+    });
+});
 
 export default class Application {
     private readonly _server: Express;
@@ -70,4 +87,3 @@ export default class Application {
         });
     }
 }
-
