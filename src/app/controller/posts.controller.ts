@@ -5,20 +5,25 @@ import { User } from "../models/user.model";
 import { Column } from 'sequelize-typescript';
 import { raw } from "body-parser";
 import { v4 as uuidv4 } from 'uuid';
+import { Status } from '../models/status.model';
 
 export default class PostController {
 
   allPost: RequestHandler = async (req: Request, res: Response, next: NextFunction) =>
-    Post.findAll({ include: [User, Comment], where: { status: "1" } }).then((val) => {
+    Post.findAll({ include: [User, Comment], }).then((val) => {
 
-      var result = val.map((post) => {
+      var result = val.map(async (post) => {
 
-
+         var statusName = await Status.findOne({
+          where:{
+            id: post.status,
+          }
+         })
 
         var data = {
           id: post.id,
           content: post.content,
-          status: post.status,
+          status: statusName?.name,
           category: post.category,
           username: post.user?.username,
           age: post.user?.age,
@@ -40,8 +45,7 @@ export default class PostController {
       })
     });
 
-  //status ile ilgili enum yapısı oluştur
-
+  
 
 
 

@@ -15,13 +15,6 @@ import WebSocket from "./services/websocket";
 
 dotenv.config();
 
-const io = require("socket.io")("http://localhost:3000", {
-     path: "/transporter/",
-     cors: {
-         origin: "*",
-         methods: ["GET", "POST"]
-     }
-})
 
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -29,14 +22,7 @@ const limiter = rateLimit({
     message: "Yavaş la gardaş server çökertcen"
 });
 
-const websocket = new WebSocket(); // socket kodları buraya aktarılacak
-io.on("connection", (socket: any) => {
-    console.log(socket);
-
-    socket.on("disconnect", () => {
-        console.log("birisi socketten ayrıldı");
-    });
-});
+const websocket:WebSocket = new WebSocket(); // socket kodları buraya aktarılacak
 
 export default class Application {
     private readonly _server: Express;
@@ -53,13 +39,14 @@ export default class Application {
             origin:"*",
             methods:"GET,PUT,POST,DELETE"
         }));
+        
         this._server.use(limiter);
         this._server.use(express.urlencoded({ extended: true }));
         this._server.use(baseRoute);
         this._server.use(userRoute);
         this._server.use(postRoute);
         this._server.use(materialRoute);
-        this._server.use(onboardingRoute);
+        this._server.use(onboardingRoute);        
         this._server.use(express.static("uploads"));
         this._server.use((
             err: Error,
@@ -71,7 +58,7 @@ export default class Application {
         }));
     }
 
-    startServer():void {
+    startServer() {
         const port: number = this._server.get("port");
         con
             .sync()
@@ -85,5 +72,24 @@ export default class Application {
         this._backendServer.listen(port, () => {
             console.log(`Server is running on port *:${port}`);
         });
+        const io = require("socket.io")(this._backendServer, {
+     path: "/transporter/",
+     cors: {
+         origin: "*",
+         methods: ["GET", "POST"]
+     }
+}) 
+io.on("connection", (socket: any) => {
+    console.log(socket);
+
+    socket.on("disconnect", () => {
+        console.log("birisi socketten ayrıldı");
+    });
+});
+ 
+
     }
 }
+
+
+//!!!1!!!!! mete kodları start server içine yazalım diğer 

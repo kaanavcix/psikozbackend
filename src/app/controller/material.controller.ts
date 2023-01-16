@@ -46,10 +46,30 @@ export class MaterialController {
   }
 
   getbooks: RequestHandler = async (req: Request, res: Response) => {
-    Book.findAll().then((value) => res.status(200).json({
-      sucess: true,
-      data: value
-    }));
+   let model  =  await Book.findAll();
+
+   
+    let data =  model.map((book)=>
+    {
+      let fromNowDate = moment.unix(book.created_at).fromNow()
+      return {
+        id:book.id,
+        title:book.title,
+        content: book.content
+        ,summary: book.summary,
+        writer:book.writer,
+        date:fromNowDate,
+        image : book.image,
+        likes:book.likes
+
+      }
+    })
+
+    return res.status(200).send({
+      success:true,
+      data:data
+    })
+
 
   }
 
@@ -244,6 +264,11 @@ export class MaterialController {
 
   getFavorites: RequestHandler = async (req: Request, res: Response) => {
 
+
+
   };
 }
 
+
+
+//bu kısım için biraz algoritma bakalım ya
