@@ -23,6 +23,10 @@ export class Post extends Model {
   content?: string;
   @Column({type: DataType.STRING,defaultValue:"1"})
   status?:string;
+  @Column({type: DataType.INTEGER,allowNull:true})
+  timestamp!:number;
+  @Column({type: DataType.INTEGER,allowNull:true})
+  photoUrl!:String;
   
   @HasMany(()=>Comment)
   comments?: Comment[];

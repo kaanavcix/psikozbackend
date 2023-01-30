@@ -6,13 +6,15 @@ import { Column } from 'sequelize-typescript';
 import { raw } from "body-parser";
 import { v4 as uuidv4 } from 'uuid';
 import { Status } from '../models/status.model';
+import moment from "moment";
+import { rejects } from "assert";
 
 export default class PostController {
 
-  allPost: RequestHandler = async (req: Request, res: Response, next: NextFunction) =>
-    Post.findAll({ include: [User, Comment], }).then((val) => {
+  allPost: RequestHandler = async (req: Request, res: Response, ) =>
+   Post.findAll({ include: [User, Comment], }).then(async (value) => {
 
-      var result = val.map(async (post) => {
+      var result =   value.map(async (post) => {
 
          var statusName = await Status.findOne({
           where:{
@@ -20,7 +22,10 @@ export default class PostController {
           }
          })
 
-        var data = {
+
+         var timeFromNow = moment.unix(post.timestamp).fromNow();
+
+        return {
           id: post.id,
           content: post.content,
           status: statusName?.name,
@@ -31,23 +36,52 @@ export default class PostController {
           gender: post.user?.gender,
           name: post.user?.name,
           avatar: post.user?.avatar,
-
-
-
+          time:timeFromNow
 
         }
-        return data;
+        
       });
 
+      
+
+
+     var model  = await Promise.all(result);
       res.status(200).json({
-        data: result,
+        data: model,
         success: true,
       })
+      
     });
 
   
 
 
+  addPostWithPhoto:RequestHandler = async(req:Request, res:Response)=>{
+    const {user_id,content}:PostInput = req.body;
+
+    var result = await User.findAll({ where: { id: user_id } });
+
+    
+    if (result.length !== 0) {
+
+      Post.create({
+        user_id:user_id,
+        content:content,
+        photoUrl:req.file?.path
+
+      });
+   
+      return res.status(200).send({success:true})
+    }
+
+
+    if (result.length===0) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+
+  }}
 
   addPost: RequestHandler = async (req: Request, res: Response,) => {
 
@@ -115,4 +149,116 @@ export default class PostController {
     });
 
   }
+  postDoctorControl:RequestHandler = async(req:Request,res:Response,) => {
+   
+    var model  = await Post.findAll({where: {
+      status: "1",
+
+    },include:[User,Comment]});
+
+
+
+ 
+
+   let result =  await model.map(async (post)=>{
+     
+     
+    var statusName=  await Status.findOne({
+        where:{
+          id:post.id
+        }
+      })
+     
+
+
+      let timeForNow = moment.unix(post.timestamp).fromNow();
+       
+     
+     
+    return {
+      id: post.id,
+      content: post.content,
+      status: statusName?.name,
+      category: post.category,
+      username: post.user?.username,
+      age: post.user?.age,
+      comment: post.comments,
+      gender: post.user?.gender,
+      name: post.user?.name,
+      avatar: post.user?.avatar,
+      time:timeForNow
+
+    }
+
+     
+    })
+
+
+     var postReturn  =  await Promise.all(result);
+
+     
+   
+       return res.status(200).send({
+        status:postReturn,
+        success:true,
+       })
+
+  }
+  postUserControl:RequestHandler = async(req:Request,res:Response,) => {
+   
+    var model  = await Post.findAll({where: {
+      status: "5",
+
+    },include:[User,Comment]});
+
+
+
+ 
+
+   let result =  await model.map(async (post)=>{
+     
+     
+    var statusName=  await Status.findOne({
+        where:{
+          id:post.id
+        }
+      })
+     
+
+
+      let timeForNow = moment.unix(post.timestamp).fromNow();
+       
+     
+     
+    return {
+      id: post.id,
+      content: post.content,
+      status: statusName?.name,
+      category: post.category,
+      username: post.user?.username,
+      age: post.user?.age,
+      comment: post.comments,
+      gender: post.user?.gender,
+      name: post.user?.name,
+      avatar: post.user?.avatar,
+      time:timeForNow
+
+    }
+
+     
+    })
+
+
+     var postReturn  =  await Promise.all(result);
+
+     
+   
+       return res.status(200).send({
+        status:postReturn,
+        success:true,
+       })
+
+  }
+
 }
+
