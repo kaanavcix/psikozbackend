@@ -51,8 +51,6 @@ export const upload = multer({
   fileFilter: FileFilter,
   // dest?:"/uploads"  
 
-
-
 });
 
 

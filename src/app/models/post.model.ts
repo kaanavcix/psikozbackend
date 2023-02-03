@@ -26,7 +26,7 @@ export class Post extends Model {
   @Column({type: DataType.INTEGER,allowNull:true})
   timestamp!:number;
   @Column({type: DataType.INTEGER,allowNull:true})
-  photoUrl!:String;
+  photoUrl?:String;
   
   @HasMany(()=>Comment)
   comments?: Comment[];

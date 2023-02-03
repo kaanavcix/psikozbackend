@@ -1,8 +1,7 @@
 import { Router } from "express";
 import { MaterialController } from "../controller/material.controller";
 import { upload } from '../middleware/image.middleware';
-import { verifyDoctor } from '../middleware/auth.middleware';
-
+import{verifyDoctor} from "../middleware/auth.middleware";
 export const materialRoute = Router();
 
 const materialController: MaterialController = new MaterialController();

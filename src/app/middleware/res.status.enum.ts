@@ -1,0 +1,8 @@
+enum ResStatusEnum {
+
+  RETURN_MESSAGE = 201,
+  SUCESS_MESSAGE =200,
+  ERROR_MESSAGE=404
+}
+
+

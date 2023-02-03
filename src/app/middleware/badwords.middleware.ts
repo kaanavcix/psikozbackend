@@ -1,4 +1,4 @@
-const badWords: string[] = ["amk", "aq", "amq"];
+const badWords: string[] = ["amk", "aq", "amq"]; //TODO:Liste genişletiriz
 
 function badWordFilter(value: string) {
     let isHave: boolean = false;
