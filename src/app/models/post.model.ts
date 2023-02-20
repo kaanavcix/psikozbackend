@@ -32,6 +32,8 @@ export class Post extends Model {
   comments?: Comment[];
   
 
+
+  
   
   
 
@@ -39,6 +41,21 @@ export class Post extends Model {
 }
 
 
+@Table({
+  tableName:"PostLike",
+  timestamps:false
+})
+export class PostLike extends Model {
+
+  @Column({type: DataType.INTEGER,allowNull:false,primaryKey:true,autoIncrement:true})
+  id?:number
+  @Column({type: DataType.INTEGER,allowNull:true})
+  user_id?:number
+  @Column({type: DataType.INTEGER,allowNull:true})
+  post_id?:number
+
+   
+}
 
 
 //bu model doğru mu bilmiyorum

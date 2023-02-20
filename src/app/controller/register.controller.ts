@@ -1,115 +1,88 @@
-import { register } from 'ts-node';
-// noinspection SpellCheckingInspection
-
-import {Request, Response, RequestHandler} from "express";
-import {v4 as uuidv4} from "uuid";
+import { Request, Response, RequestHandler } from "express";
+import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
 import crypto from "crypto";
-import validator from "email-validator";
-import { User,RegisterModel } from "../models/user.model";
+import { User, RegisterModel } from "../models/user.model";
+import UserRepository from "../services/user.repository";
+import { MessageReturn } from "../helpers/res.variable";
+import { AppUtility } from "../utility/app.constant";
 
 export class RegisterController {
-    register: RequestHandler = async (req: Request, res: Response) => {
-        try {
-            const { name,username, email, password, age, gender, is_patient }: RegisterModel = req.body;
+  private userRepository: UserRepository;
 
-            if (validator.validate(<string>email)) {
-                let emailControl = await User.findAll({
-                    where: {email}
-                });
-                if (emailControl.length !== 0) {
-                    // Böyle bir e-posta daha önce kayıt olmuş
-                    return res.status(400).send({
-                        status: false,
-                        message: 0x5000
-                    });
-                }
+  constructor(userRepository: UserRepository) {
+    this.userRepository = userRepository;
+  }
+  register: RequestHandler = async (req: Request, res: Response) => {
+    try {
+      const {
+        name,
+        username,
+        email,
+        password,
+        age,
+        gender,
+        is_patient,
+      }: RegisterModel = req.body;
 
-                const timestamp = moment().unix();
+      if (await this.userRepository.usermailControl(email!))
+        MessageReturn(res, AppUtility.register_email_fail);
 
-                let newGender = 1;
-                if (gender === "male" || gender === "1") {
-                    newGender = 1;
-                } else if (gender === "female" || gender === "2") {
-                    newGender = 2;
-                } else {
-                    newGender = 3;
-                }
+      const timestamp = moment().unix();
 
-                if (Number(age) < 18) {
-                    // Erişkin değil
-                    return res.status(400).send({
-                        status: false,
-                        message: 0x99
-                    });
-                }
+      let newGender = this.genderDetection(gender!);
 
-                let newUsername = username;
-                if (username === undefined || username.length <= 3) {
-                    // Username yok ya da 3 karakterden az
-                    return res.status(400).send({
-                        status: false,
-                        message: 0x98
-                    });
-                } else {
-                    newUsername = username.replace(/\s/g, "");
-                }
+      if (Number(age) < 18) MessageReturn(res, AppUtility.register_age_fail);
 
-                let usernameControl = await User.findAll({
-                    where: {username: newUsername}
-                });
-                if (usernameControl.length !== 0) {
-                    // Bu kullanıcı adı daha önce alınmış
-                    return res.status(400).send({
-                        status: false,
-                        message: 0x4000
-                    });
-                }
+      let newUsername = username;
+      if (
+        username === undefined ||
+        username.length <= 3 ||
+        (await this.userRepository.usernameControl(newUsername!))
+      ) {
+        // Username yok ya da 3 karakterden az
+        MessageReturn(res, AppUtility.register_username_fail);
+      } else {
+        newUsername = username.replace(/\s/g, "");
+      }
 
-                if (password === undefined || password.length <= 3) {
-                    // Şifre yok ya da 3 karakterden az
-                    return res.status(400).send({
-                        status: false,
-                        message: 0x97
-                    });
-                }
+      if (password === undefined || password.length <= 3)
+        MessageReturn(res, AppUtility.register_password_fail);
 
-                const is_patient_new = is_patient=="1"?true :false;
+      const is_patient_new = is_patient == "1" ? true : false;
 
-                const token = crypto
-                    .createHash("sha256")
-                    .update(uuidv4())
-                    .digest("hex");
+      const token = crypto.createHash("sha256").update(uuidv4()).digest("hex");
 
-                const data = await User.create({
-                    token,
-                    name: name,
-                    username: newUsername,
-                    avatar: "",
-                    age: Number(age),
-                    gender: newGender,
-                    joined_at: timestamp,
-                    password: password,
-                    doctor_file: req.file?.path,
-                    email,
-                    is_patient: is_patient_new || false,
-                });
+      const data = {
+        token: token,
+        name: name,
+        username: newUsername,
+        avatar: "",
+        age: Number(age),
+        gender: newGender,
+        joined_at: timestamp,
+        password: password,
+        doctor_file: req.file?.path,
+        email: email,
+        is_patient: is_patient_new || false,
+      };
 
-                return res.status(200).json({
-                    status: true,
-                    message: 0x1,
-                    token,
-                });
-            } else {
-                return res.status(400).send({
-                    status: false,
-                    message: 0x4
-                });
-            }
-        } catch (e: any) {
-            console.log(e);
-        }
+      this.userRepository.addUser(data);
+
+      return res.status(200).json({
+        status: true,
+        message: 0x1,
+        token,
+      });
+    } catch (e: any) {
+      console.log(e);
     }
+  };
+
+private genderDetection(gender: String): number {
+    let newGender: number;
+    if (gender === "male" || gender === "1") return (newGender = 1);
+    else if (gender === "female" || gender === "2") return (newGender = 2);
+    else return (newGender = 3);
+  }
 }
-
-

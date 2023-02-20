@@ -17,4 +17,5 @@ userRoute.post("/api/test", upload.single('file'), (req: Request, res: Response)
 
 userRoute.post("/api/user/:id/upload", upload.single("image"),userController.updateImage);
 
-userRoute.post("/api/user/:username",userController.usernameController)
+userRoute.post("/api/user/:username",userController.usernameController);
+

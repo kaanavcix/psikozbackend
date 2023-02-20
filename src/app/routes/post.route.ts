@@ -8,19 +8,20 @@ export const postRoute = Router();
 const postcontroller = new PostController();
 const commentcontroller = new CommentController();
 
-// GET
+// TODO:GET
 postRoute.get("/api/posts", postcontroller.allPost);
 postRoute.get("/api/post/:id", postcontroller.postbyId);
 
-// POST
+// TODO:POST
 postRoute.post("/api/post", postcontroller.addPost);
 postRoute.post("/api/post/:id/comment", verifyDoctor, commentcontroller.addComment)
+postRoute.post("/api/myposts",postcontroller.postByToken);
 
-// DELETE
+// TODO:DELETE
 postRoute.delete("/api/post/:id", postcontroller.deletePost);
 postRoute.delete("/api/post/:post_id/comment/:id")
 
-// PUT
+// TODO:PUT
 postRoute.put("/api/post/:id", postcontroller.updatePost);
 
 postRoute.post("/api/post/:id/comment", verifyDoctor, commentcontroller.addComment)

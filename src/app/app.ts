@@ -5,7 +5,7 @@ import rateLimit from "express-rate-limit";
 import { userRoute } from "./routes/user.router";
 import { baseRoute } from "./routes/base.route";
 import { materialRoute } from "./routes/material.route";
-import { con } from "./services";
+import { con, dbRsd } from "./services";
 import { postRoute } from "./routes/post.route";
 import * as dotenv from "dotenv";
 import { createServer, Server as HTTPServer } from "http";
@@ -26,8 +26,7 @@ const limiter = rateLimit({
 
 
 const websocket: WebSocket = new WebSocket(); // socket kodları buraya aktarılacak
-
-export default class Application {
+class Application {
   private readonly _server: Express;
   private _router: Router;
   private _backendServer;
@@ -71,7 +70,7 @@ export default class Application {
 
   startServer():void {
     const port: number = this._server.get("port");
-    con
+    dbRsd
       .sync()
       .then(() => {
         console.log("Database successfully connected");
@@ -90,5 +89,8 @@ export default class Application {
     })
   }
 }
+
+
+export default Application;
 
 //!!!1!!!!! mete kodları start server içine yazalım diğer

@@ -28,7 +28,7 @@ export class Music extends Model {
 })
 
 export class Podcast extends Model {
-  @Column({ primaryKey: true, autoIncrement: true, allowNull: false, type: DataType.INTEGER })
+  @Column({ primaryKey: true, autoIncrement: true,  type: DataType.INTEGER })
   id?: number;
   @Column({ type: DataType.STRING, allowNull:true})
   title?: string;
@@ -49,12 +49,12 @@ export class Podcast extends Model {
   timestamps: false,
 })
 export class LikePodcast extends Model {
-  @Column({ primaryKey: true, autoIncrement: true, allowNull: false, type:DataType.INTEGER})
+  @Column({ primaryKey: true, autoIncrement: true, allowNull: true, type:DataType.INTEGER})
   id?: number;
-  @Column({ type: DataType.STRING, allowNull:true})
+  @Column({ type: DataType.INTEGER, allowNull:true})
   like_id?: number;
   @ForeignKey(()=>Podcast)
-  @Column({ type: DataType.STRING, allowNull:true})
+  @Column({ type: DataType.INTEGER, allowNull:true})
   item_id?: number;
   
   @BelongsTo(()=>Podcast)
@@ -69,10 +69,10 @@ export class LikePodcast extends Model {
 export class LikeMusic extends Model {
   @Column({ primaryKey: true, autoIncrement: true, allowNull: false, type:DataType.INTEGER})
   id?: number;
-  @Column({ type: DataType.STRING, allowNull:true})
+  @Column({ type: DataType.INTEGER, allowNull:true})
   like_id?: number;
   @ForeignKey(()=>Music)
-  @Column({ type: DataType.STRING, allowNull:true})
+  @Column({ type: DataType.INTEGER, allowNull:true})
   item_id?: number;
   @BelongsTo(()=>Music)
   music?:Music;
