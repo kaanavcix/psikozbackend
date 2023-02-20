@@ -46,11 +46,9 @@ export const con = new Sequelize({
 });
 
 export const dbRsd = new Sequelize({
-  protocol: "https",
-  ssl:true,
-  
+ 
   host: "psikoz.ccmtezzhszrt.eu-central-1.rds.amazonaws.com",
-  port:3000,
+  port:3306,
   logging:console.log,
   dialect: "mysql",
   dialectOptions:{
