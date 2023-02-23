@@ -39,12 +39,12 @@ class Application {
     this._router = Router();
     this._server.set("port", process.env.PORT || 8080);
     this._server.use(bodyParser.json());
-    this._server.use(
-      cors({
-        origin: "*",
-        methods: "GET,PUT,POST,DELETE",
-      })
-    );
+    // this._server.use(
+    //   cors({
+    //     origin: "*",
+    //     methods: "GET,PUT,POST,DELETE",
+    //   })
+    // );
 
     this._server.use(limiter);
     this._server.use(express.urlencoded({ extended: true }));
