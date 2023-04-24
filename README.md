@@ -1,6 +1,6 @@
 # Psikoz Backend with TypeScript
 
-# Artık bu bakcend kullanılmamaktadır!!!!
+# Artık bu backend kullanılmamaktadır. Ama Örnek olması için bırakıyorum!!!!
 
 ## General idea
 Typescript is very well solution on app 
